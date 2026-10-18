@@ -378,6 +378,17 @@ public class MailMessage {
         return null;
     }
 
+    static final SimpleDateFormat longFormat =
+        new SimpleDateFormat("M/d/yy h:m:s a zzzz");
+    static final SimpleDateFormat longFormat2 =
+        new SimpleDateFormat("M/d/yyyy h:m:s a zzzz");
+    static final SimpleDateFormat mediumFormat =
+        new SimpleDateFormat("yy-MM-dd HH:mm:ss z");
+    static final SimpleDateFormat shortFormat =
+        new SimpleDateFormat("M/d/yy");
+    static final SimpleDateFormat shortFormat2 =
+        new SimpleDateFormat("M/d/yy");
+
     /**
      *  Parses AOL date string and returns Date object.  Returns null if
      *  the date string cannot be parsed.  The date string is known to take
@@ -387,35 +398,28 @@ public class MailMessage {
      *  c)  01-12-02 18:18:53 EST
      */
     public Date getDate() {
-        Date date = null;
-        // Create formatter with format pattern.
-        SimpleDateFormat format = new SimpleDateFormat("M/d/yy h:m:s a z");
-
         // Try parsing with first date format pattern.
-        try {
-            date = format.parse(dateString);
-        }
-        catch (ParseException pex) { date = null; }
+        if (dateString != null) {
+            try {
+                // System.out.println("dateString is " + dateString);
+                return longFormat.parse(dateString);
+            } catch (ParseException pex) {
+                pex.printStackTrace();
+            }
 
-        if (date == null) {
             // Try parsing with second date format pattern.
             try {
-                format.applyPattern("M/d/yy");
-                date = format.parse(dateString);
-            }
-            catch (ParseException pex) { date = null; }
+                return shortFormat.parse(dateString);
+            } catch (ParseException pex) { }
 
             // Try parsing with third date format pattern.
-            if (date == null) {
-                try {
-                    format.applyPattern("yy-MM-dd HH:mm:ss z");
-                    date = format.parse(dateString);
-                }
-                catch (ParseException pex) { date = null; }
-            }
-        }
+            try {
+                return mediumFormat.parse(dateString);
+            } catch (ParseException pex) { }
 
-        return date;
+            System.out.println("Could not parse date: '" + dateString + "'");
+        }
+        return null;
     }
 
     /**
