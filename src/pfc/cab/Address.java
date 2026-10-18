@@ -40,7 +40,7 @@ public class Address {
      */
     public Address(byte[] content) {
         // Parse item content into blocks.
-        ArrayList<ItemBlock> blockList = ItemBlock.parseItemContent(content);
+        List<ItemBlock> blockList = ItemBlock.parseItemContent(content);
 
         // Loop through all item blocks.
         for (int i = 0; i < blockList.size(); i++) {
@@ -48,7 +48,7 @@ public class Address {
             // int blockLen = block.getLength();
 
             // Get all subitems.
-            ArrayList<BlockSubItem> subItems =
+            List<BlockSubItem> subItems =
                 BlockSubItem.parseBlockContent(block.getContent());
 
             @SuppressWarnings("unused")

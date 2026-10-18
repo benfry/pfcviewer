@@ -2,29 +2,30 @@
  * Copyright (c) 2002 Ernest Yu. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
 
 package pfc.cab;
 
-import java.awt.*;
+import java.awt.EventQueue;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 /**
@@ -35,7 +36,7 @@ import javax.swing.*;
  *  <br>02 Mar 2003 Creates dummy cabinet item for zero entries.
  */
 public class CabinetMaker implements Runnable {
-    
+
     public static final String CABFILE_ID = "AOLVM100";
 
     private RandomAccessFile pfcFile;
@@ -59,7 +60,7 @@ public class CabinetMaker implements Runnable {
     }
 
     /** Sets JProgressBar object.  If set, the run() method will use the
-     *  EventQueue to update the displayed percentage while it reads the 
+     *  EventQueue to update the displayed percentage while it reads the
      *  cabinet file.
      */
     public void setProgressBar(JProgressBar bar) {
@@ -68,7 +69,7 @@ public class CabinetMaker implements Runnable {
     }
 
     /** Sets JDialog object.  If set, the run() method will use the
-     *  EventQueue to close the dialog box after it finishes reading the 
+     *  EventQueue to close the dialog box after it finishes reading the
      *  cabinet file.
      */
     public void setProgressDialog(JDialog dialog) {
@@ -115,7 +116,7 @@ public class CabinetMaker implements Runnable {
             if (!buf.toString().equals(CABFILE_ID)) {
                 throw new CabinetException("Selected file is not a Filing Cabinet.");
             }
-            
+
             // Find start of index
             pfcFile.seek(16L);
             int idxStart = IntUtil.reverseInt(pfcFile.readInt());
@@ -138,7 +139,7 @@ public class CabinetMaker implements Runnable {
             // Go to first message index
             int idxMsg0 = idxStart + 12;
             int itemCount = 0;
-            ArrayList itemList = new ArrayList();
+            List<CabinetItem> itemList = new ArrayList<>();
 
             // Loop through all index entries.
             for (int i = idxMsg0; i < (idxStart + 8 + idxLength); i += 4) {
@@ -164,7 +165,7 @@ public class CabinetMaker implements Runnable {
                 }
 
                 // Set progress bar if available.
-                if ((progressBar != null) && 
+                if ((progressBar != null) &&
                     ((progressPct % 5) == 0)) {
                     EventQueue.invokeLater(
                         new Runnable() {
@@ -198,12 +199,12 @@ public class CabinetMaker implements Runnable {
                         if (progressDialog != null) {
                             progressDialog.dispatchEvent(
                                 new java.awt.event.WindowEvent(
-                                    progressDialog, 
+                                    progressDialog,
                                     java.awt.event.WindowEvent.WINDOW_CLOSING));
                         }
                     }
                 });
-        } 
+        }
     }
 
 }

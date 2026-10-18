@@ -2,20 +2,20 @@
  * Copyright (c) 2002 Ernest Yu. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
@@ -26,7 +26,7 @@ import java.text.*;
 import java.util.*;
 import java.util.zip.*;
 
-/** 
+/**
  *  Contains all of the components of an email message.  The contents of
  *  a cabinet item are parsed by the main constructor to retrieve the
  *  mail components.
@@ -35,9 +35,9 @@ import java.util.zip.*;
  */
 public class MailMessage {
 
-    public static final String HEADER_LINE = 
+    public static final String HEADER_LINE =
         "----------------------- Headers --------------------------------";
-    
+
     // standard fields
     private String dateString;
     private String from;
@@ -50,28 +50,39 @@ public class MailMessage {
     private String body;
 
     // AOL fields
+
+    @SuppressWarnings("unused")
     private byte[] check;
     private String screenname;
+    @SuppressWarnings("unused")
     private boolean external;
+    @SuppressWarnings("unused")
     private boolean embedded;
+    @SuppressWarnings("unused")
     private int dateTime;
     private String attachment;
+    @SuppressWarnings("unused")
     private String postHeader;
     private String mailHeader;
+    @SuppressWarnings("unused")
     private String oldAddress;
+    @SuppressWarnings("unused")
     private String oldData;
+    @SuppressWarnings("unused")
     private String picture;
+    @SuppressWarnings("unused")
     private String attLocation;
+    @SuppressWarnings("unused")
     private String binLocation;
 
-    /** 
+    /**
      *  Constructor.
      *  @param content contents of CabinetItem for mail message.
      */
     public MailMessage(byte[] content) {
         // Parse message content into blocks.
-        ArrayList blockList = ItemBlock.parseItemContent(content);
-        
+        List<ItemBlock> blockList = ItemBlock.parseItemContent(content);
+
         StringBuffer bodyBuffer = new StringBuffer();
         StringBuffer headBuffer = new StringBuffer();
         Inflater inflater = new Inflater(true);
@@ -82,11 +93,11 @@ public class MailMessage {
         // Loop through all item blocks.
         for (int i = 0; i < blockList.size(); i++) {
             ItemBlock block = (ItemBlock)blockList.get(i);
-            int blockLen = block.getLength();
+            // int blockLen = block.getLength();
 
             // Get all subitems.
-            ArrayList subItems = BlockSubItem.parseBlockContent(
-                block.getContent());
+            List<BlockSubItem> subItems =
+                BlockSubItem.parseBlockContent(block.getContent());
 
             short extType = -1;
 
@@ -148,7 +159,7 @@ public class MailMessage {
                                 headBuffer.append(getHeaderText(data));
                             }
                             else if (oldHeader) {
-                                // Sometimes, additional header text is 
+                                // Sometimes, additional header text is
                                 // contained in a separate block.
                                 headBuffer.append(new String(data));
                             }
@@ -196,7 +207,7 @@ public class MailMessage {
                 }
             }   // end of loop through subitems.
         }       // end of loop through item blocks.
-        
+
         inflater.end();
         body = bodyBuffer.toString();
         mailHeader = headBuffer.toString();
@@ -239,12 +250,12 @@ public class MailMessage {
     public String getBody() {
         return body;
     }
-    
+
     public String getAttachment() {
         return attachment;
     }
 
-    /** 
+    /**
      *  Returns true if body text includes &lt;html&gt; tag.
      */
     public boolean isHtml() {
@@ -256,7 +267,7 @@ public class MailMessage {
             return true;
         }
     }
-    
+
     /**
      *  Returns mail header.  If the message content does not include a
      *  header, then the header is manufactured from other fields.
@@ -275,7 +286,7 @@ public class MailMessage {
             return buffer.toString();
         }
     }
-    
+
     /**
      *  Returns body text of mail message.  Converts &lt;BR&gt; tags and
      *  character entities to text if they are not within an actual HTML
@@ -326,7 +337,7 @@ public class MailMessage {
         // Return converted text.
         return buffer.toString();
     }
-    
+
     /**
      *  Returns next token if it is an HTML tag or character entity that we
      *  are searching for.
@@ -359,14 +370,14 @@ public class MailMessage {
                     return buffer.substring(pos, pos + 4);
                 }
             }
-        } 
-        catch (StringIndexOutOfBoundsException ex) { 
+        }
+        catch (StringIndexOutOfBoundsException ex) {
             // Do nothing; same as no token found.
         }
         // Nothing found so return null.
         return null;
     }
-    
+
     /**
      *  Parses AOL date string and returns Date object.  Returns null if
      *  the date string cannot be parsed.  The date string is known to take
@@ -408,7 +419,7 @@ public class MailMessage {
     }
 
     /**
-     *  Converts date to mail header date format.  The result string is of 
+     *  Converts date to mail header date format.  The result string is of
      *  the form: Sun, 8 Dec 2002 13:59:59 -0500.
      */
     private String formatHeaderDate() {
@@ -441,10 +452,10 @@ public class MailMessage {
         }
         return buf.toString();
     }
-    
+
     /**
      *  Returns mail body text for display in the viewer.  If selected,
-     *  the complete mail header is appended to the end of the returned 
+     *  the complete mail header is appended to the end of the returned
      *  string.
      */
     public String toTextString(boolean showHeader) {
@@ -458,7 +469,7 @@ public class MailMessage {
         }
         return buf.toString();
     }
-    
+
     /**
      *  Returns true if subitem data contains standard header line.
      */
@@ -474,7 +485,7 @@ public class MailMessage {
     }
 
     /**
-     *  Strips off header separator string in subitem data, and returns 
+     *  Strips off header separator string in subitem data, and returns
      *  remaining text.
      */
     private String getHeaderText(byte[] data) {
@@ -493,7 +504,7 @@ public class MailMessage {
     }
 
     /**
-     *  Converts byte array with V7 header data to a character string.  
+     *  Converts byte array with V7 header data to a character string.
      *  Replaces all occurences of Del (0x7f) with system line separator.
      */
     private String toV7String(byte[] data) {

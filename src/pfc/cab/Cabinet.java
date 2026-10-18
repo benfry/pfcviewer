@@ -2,20 +2,20 @@
  * Copyright (c) 2002 Ernest Yu. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
@@ -27,8 +27,8 @@ import java.util.*;
 import pfc.export.*;
 
 /**
- *  Contains all information in the Filing Cabinet.  The data in a Cabinet 
- *  object is usually initialized by creating a CabinetMaker object and 
+ *  Contains all information in the Filing Cabinet.  The data in a Cabinet
+ *  object is usually initialized by creating a CabinetMaker object and
  *  calling its run() method.
  *
  *  @author Ernie Yu
@@ -41,14 +41,14 @@ public class Cabinet {
     private int idxCount;
     private int cabStart;
     private int itemCount;
-    private ArrayList itemList;
+    private List<CabinetItem> itemList;
     private int exportCount;
 
     /**
      *  Constructor.
      */
     public Cabinet() {
-        itemList = new ArrayList();
+        itemList = new ArrayList<>();
     }
 
     /** Sets byte address of cabinet index.
@@ -113,30 +113,30 @@ public class Cabinet {
 
     /** Sets array list of cabinet items.
      */
-    public void setItemList(ArrayList list) {
+    public void setItemList(List<CabinetItem> list) {
         itemList = list;
     }
 
     /** Returns array list of cabinet items.
      */
-    public ArrayList getItemList() {
+    public List<CabinetItem> getItemList() {
         return itemList;
     }
 
     /**
-     *  Returns the item for the specified index.  Input index for this 
+     *  Returns the item for the specified index.  Input index for this
      *  method is zero-based.
      */
     public CabinetItem getCabinetItem(int index) {
         return (CabinetItem)itemList.get(index);
     }
-    
+
     /**
      *  Exports the specified cabinet item using an Exporter.  The item
      *  is usually a folder whose children will be exported.  Returns
      *  the number of items exported.
      */
-    public int export(CabinetItem item, Exporter exporter) 
+    public int export(CabinetItem item, Exporter exporter)
         throws ExportException {
         exportCount = 0;
         try {
@@ -158,13 +158,13 @@ public class Cabinet {
         }
         return exportCount;
     }
-    
+
     /**
      *  Exports all child items of the specified parent.  This method
      *  will recurse through all sub-folders of the parent, and export
      *  their child items.
      */
-    private void exportChildren(CabinetItem parent, Exporter exporter) 
+    private void exportChildren(CabinetItem parent, Exporter exporter)
         throws ExportException {
         try {
             exporter.openFolder(parent);
@@ -189,5 +189,5 @@ public class Cabinet {
             exporter.closeFolder();
         }
     }
-    
+
 }

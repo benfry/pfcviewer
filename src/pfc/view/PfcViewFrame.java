@@ -262,7 +262,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
     /** Initializes hash table of text actions associated with text components.
      */
     private void initTextActions(JTextComponent textComponent) {
-        this.textActions = new Hashtable();
+        this.textActions = new HashMap<Object, Action>();
         Action[] actions = textComponent.getActions();
         for (int i = 0; i < actions.length; i++) {
             Action action = actions[i];
@@ -311,7 +311,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
     private Cabinet cabinet;
     private CabinetTableModel tableModel;
     private File lastExportDir = new File(System.getProperty("user.dir"));
-    private Hashtable textActions;
+    private HashMap<Object, Action> textActions;
     // User options
     private boolean appendHeaders = false;      // append mail headers
     private boolean browserForHtml = false;     // browser view for HTML
@@ -375,7 +375,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
             putValue(SHORT_DESCRIPTION, getValue(NAME));
             putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_O));
             putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_OPEN));
-            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         }
 
         /** Invoked when an action occurs.  Displays the Open dialog to
@@ -511,7 +511,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
             super("Copy");
             putValue(SHORT_DESCRIPTION, getValue(NAME));
             putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_C));
-            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+            putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_DOWN_MASK));
             putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_COPY));
         }
 

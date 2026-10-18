@@ -59,9 +59,9 @@ public class ItemBlock {
      *  block data excludes the start and end markers.  This is a static
      *  method to allow content parsing for different item types.
      */
-    public static ArrayList<ItemBlock> parseItemContent(byte[] content) {
+    public static List<ItemBlock> parseItemContent(byte[] content) {
 
-        ArrayList<ItemBlock> blockList = new ArrayList<>();
+        List<ItemBlock> blockList = new ArrayList<>();
         int pos = 0;
 
         while (pos < content.length) {
