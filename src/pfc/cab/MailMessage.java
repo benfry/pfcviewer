@@ -378,49 +378,38 @@ public class MailMessage {
         return null;
     }
 
-    static final SimpleDateFormat longFormat =
-        new SimpleDateFormat("M/d/yy h:m:s a zzzz");
-    static final SimpleDateFormat longFormat2 =
-        new SimpleDateFormat("M/d/yyyy h:m:s a zzzz");
-    static final SimpleDateFormat mediumFormat =
-        new SimpleDateFormat("yy-MM-dd HH:mm:ss z");
-    static final SimpleDateFormat shortFormat =
-        new SimpleDateFormat("M/d/yy");
-    static final SimpleDateFormat shortFormat2 =
-        new SimpleDateFormat("M/d/yy");
-
     /**
      *  Parses AOL date string and returns Date object.  Returns null if
      *  the date string cannot be parsed.  The date string is known to take
      *  one of three forms: <BR>
+     *
      *  a)  12/2/2001 6:18:53 PM Eastern Standard Time <BR>
      *  b)  12/2/01 <BR>
-     *  c)  01-12-02 18:18:53 EST
+     *  c)  01-12-02 18:18:53 EST <BR>
+     *
+     *  Updated 2026-10-18 to include longer time zone (zzzz instead of z),
+     *  and formats with 4-digit years instead of just 2-digit.
      */
     public Date getDate() {
         // Try parsing with first date format pattern.
         if (dateString != null) {
-            try {
-                // System.out.println("dateString is " + dateString);
-                return longFormat.parse(dateString);
-            } catch (ParseException pex) {
-                pex.printStackTrace();
+            for (SimpleDateFormat format : formats) {
+                try {
+                    return format.parse(dateString);
+                } catch (ParseException pex) { }
             }
-
-            // Try parsing with second date format pattern.
-            try {
-                return shortFormat.parse(dateString);
-            } catch (ParseException pex) { }
-
-            // Try parsing with third date format pattern.
-            try {
-                return mediumFormat.parse(dateString);
-            } catch (ParseException pex) { }
-
             System.out.println("Could not parse date: '" + dateString + "'");
         }
         return null;
     }
+
+    static final SimpleDateFormat[] formats = {
+        new SimpleDateFormat("M/d/yy h:m:s a zzzz"),
+        new SimpleDateFormat("M/d/yyyy h:m:s a zzzz"),
+        new SimpleDateFormat("yy-MM-dd HH:mm:ss z"),
+        new SimpleDateFormat("M/d/yy"),
+        new SimpleDateFormat("M/d/yy")
+    };
 
     /**
      *  Converts date to mail header date format.  The result string is of
