@@ -60,9 +60,9 @@ public class BlockSubItem {
      *  This is a static method to allow content parsing for different
      *  blocks.
      */
-    public static ArrayList<BlockSubItem> parseBlockContent(byte[] content) {
+    public static List<BlockSubItem> parseBlockContent(byte[] content) {
 
-        ArrayList<BlockSubItem> subItems = new ArrayList<>();
+        List<BlockSubItem> subItems = new ArrayList<>();
         int pos = 0;
 
         while (pos < content.length) {
