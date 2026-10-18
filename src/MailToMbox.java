@@ -2,20 +2,20 @@
  * Copyright (c) 2002 Ernest Yu. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
@@ -25,24 +25,25 @@ import pfc.cab.*;
 import pfc.export.*;
 
 /**
- *  Exports all mail messages in the Filing Cabinet to an mbox mail file.  
- *  This program checks all items in the cabinet, and ignores the folder 
+ *  Exports all mail messages in the Filing Cabinet to an mbox mail file.
+ *  This program checks all items in the cabinet, and ignores the folder
  *  structure.
  *
  *  @author Ernie Yu
  *  <br>02 Mar 2003 - Checks cabinet maker for exceptions, and halts on error.
  */
 public class MailToMbox {
-    
-    private RandomAccessFile pfcFile;
+
+    private File pfcFile;
+    private RandomAccessFile readFile;
     private Cabinet cabinet;
-    
+
     /** Creates a new instance of MailToMbox */
     public MailToMbox() {
     }
-    
+
     /**
-     *  Main program method.  Accepts two command line arguments, PFC 
+     *  Main program method.  Accepts two command line arguments, PFC
      *  filename and mbox filename.
      *  @param args the command line arguments
      */
@@ -59,7 +60,7 @@ public class MailToMbox {
             System.out.println("Pfc filename and Mbox filename must be different.");
             return;
         }
-        
+
         // Create main object, open cabinet file, and export mails.
         MailToMbox converter = new MailToMbox();
         converter.openCabinet(args[0]);
@@ -68,23 +69,24 @@ public class MailToMbox {
     }
 
     /**
-     *  Opens specified cabinet file, and reads all items into Cabinet 
+     *  Opens specified cabinet file, and reads all items into Cabinet
      *  object.
      */
     private void openCabinet(String pfcName) {
         // Open PFC file for reading
         try {
-            pfcFile = new RandomAccessFile(pfcName, "r");
+            pfcFile = new File(pfcName);
+            readFile = new RandomAccessFile(pfcFile, "r");
         } catch (FileNotFoundException ex) {
             System.err.println("Could not read cabinet file " + pfcName);
             System.exit(1);
         }
 
         // Create cabinet maker and start thread to read file.
-        CabinetMaker maker = new CabinetMaker(pfcFile);
+        CabinetMaker maker = new CabinetMaker(readFile);
         Thread thread = new Thread(maker);
         thread.start();
-        
+
         // Wait for thread to finish.
         System.out.print("Reading cabinet file " + pfcName);
         while (thread.isAlive()) {
@@ -95,7 +97,7 @@ public class MailToMbox {
             catch (InterruptedException iex) {}
         }
         System.out.println();
-        
+
         // Check exception and progress for errors.
         Exception exception = maker.getException();
         int percent = maker.getProgressPct();
@@ -117,13 +119,13 @@ public class MailToMbox {
      * Closes cabinet file.
      */
     private void closeCabinet() {
-        if (pfcFile != null) {
+        if (readFile != null) {
             try {
-                pfcFile.close();
+                readFile.close();
             } catch (IOException iox) {}
         }
     }
-    
+
     /**
      *  Exports all mail messages in cabinet to mbox file.
      */
@@ -134,7 +136,8 @@ public class MailToMbox {
 
         // Create factory and get exporter object.
         ExporterFactory factory = new ExporterFactory(Exporter.MBOX);
-        Exporter exporter = factory.getExporter(new File(mboxName));
+        File mboxFile = new File(mboxName);
+        Exporter exporter = factory.getExporter(mboxFile);
         try {
             exporter.open();
             // Loop through items, and export mail messages.
@@ -151,10 +154,10 @@ public class MailToMbox {
         }
         finally {
             exporter.close();
-            System.out.println(String.valueOf(mailCount) + 
-                " mail messages exported.");
+            mboxFile.setLastModified(pfcFile.lastModified());
+            System.out.println(mailCount + " mail messages exported.");
             System.out.println("Done.");
         }
     }
-    
+
 }
