@@ -14,7 +14,7 @@
     <property name="lib.dir"   location="lib" />
     <property name="proj.dir"  location="nbproject" />
     <property name="src.dir"   location="src" />
-    
+
     <property name="dist.jar"   value="${ant.project.name}.jar" />
     <property name="src.jar"    value="${ant.project.name}-src.jar" />
     <property name="main.class" value="PfcViewer" />
@@ -35,12 +35,12 @@
         <delete includeEmptyDirs="true" failonerror="false">
             <fileset dir="${build.dir}" includes="**/*" />
         </delete>
-        
+
         <!-- Delete previously built jar files -->
         <delete includeEmptyDirs="true" failonerror="false">
             <fileset dir="${dist.dir}" includes="**/*" />
         </delete>
-        
+
         <!-- Delete generated javadoc files -->
         <delete includeEmptyDirs="true" failonerror="false">
             <fileset dir="${doc.dir}" includes="**/*" />
@@ -49,15 +49,15 @@
 
     <target name="compile" depends="init" description="Compile all classes">
         <!-- Compile all java classes -->
-        <javac debug="true" deprecation="true" 
-            destdir="${build.dir}" 
+        <javac debug="true" deprecation="true"
+            destdir="${build.dir}"
             srcdir="${src.dir}"
-            source="1.4"
-            target="1.4"
+            source="8"
+            target="8"
             includes="**/*.java">
             <classpath refid="base.classpath" />
         </javac>
-        
+
         <!-- Copy associated image files to build directory -->
         <copy todir="${build.dir}">
             <fileset dir="${src.dir}">
@@ -70,11 +70,11 @@
     <target name="jar" depends="compile" description="Package into jar file">
         <!-- Delete previously built jar file -->
         <delete file="${dist.dir}/${dist.jar}" />
-        
+
         <!-- Create jar file with classes, images, and manifest -->
-        <jar destfile="${dist.dir}/${dist.jar}" 
-             basedir="${build.dir}" 
-             compress="true" 
+        <jar destfile="${dist.dir}/${dist.jar}"
+             basedir="${build.dir}"
+             compress="true"
              includes="**/*.class,**/*.gif,**/*.png">
             <manifest>
                 <attribute name="Main-Class" value="${main.class}" />
@@ -91,9 +91,9 @@
             <classpath>
                 <pathelement location="."/>
             </classpath>                    -->
-            <!-- Pass some args, perhaps: 
+            <!-- Pass some args, perhaps:
             <arg value="-myfile"/>          -->
-            <!-- Will be given as an absolute path: 
+            <!-- Will be given as an absolute path:
             <arg file="myfile.txt"/>
         </java>
     </target>
@@ -103,7 +103,7 @@
             <classpath refid="base.classpath" />
         </java>
     </target>
-    
+
     <target name="profile" depends="compile" description="Profile Project">
         <fail unless="netbeans.home">This target can only run inside NetBeans</fail>
 
@@ -112,7 +112,7 @@
                 <pathelement path="${build.dir}" />
             </classpath>
         </nbprofiledirect>
-        
+
         <java classname="PfcViewer" fork="true">
             <classpath>
                 <pathelement path="${build.dir}" />
@@ -129,7 +129,7 @@
 
         <!-- Generate javadoc files -->
         <javadoc sourcepath="${src.dir}"
-                 destdir="${doc.dir}" 
+                 destdir="${doc.dir}"
                  overview="${src.dir}/overview.html"
                  doctitle="PFC Viewer API"
                  windowtitle="PFC Viewer API"
@@ -149,10 +149,10 @@
     <target name="dist" depends="jar" description="Package source files">
         <!-- Delete previously built jar file -->
         <delete file="${dist.dir}/${src.jar}" />
-        
+
         <!-- Create jar file with project and source files -->
-        <jar destfile="${dist.dir}/${src.jar}" 
-             basedir="." 
+        <jar destfile="${dist.dir}/${src.jar}"
+             basedir="."
              compress="true">
             <zipfileset dir="${src.dir}" prefix="src" />
             <zipfileset dir="${proj.dir}" prefix="nbproject" />
