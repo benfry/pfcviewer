@@ -52,8 +52,6 @@
         <javac debug="true" deprecation="true"
             destdir="${build.dir}"
             srcdir="${src.dir}"
-            source="8"
-            target="8"
             includes="**/*.java">
             <classpath refid="base.classpath" />
         </javac>
