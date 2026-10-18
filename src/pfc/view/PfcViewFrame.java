@@ -2,20 +2,20 @@
  * Copyright (c) 2002 Ernest Yu. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
@@ -39,16 +39,16 @@ import pfc.images.*;
  *  <br>29 Mar 2002 - MailSelectionListener skips adjusting list events.
  */
 public class PfcViewFrame extends javax.swing.JFrame {
-    
+
     private static final String VERSION = "Version 0.5";
     private static final String VERSION_DATE = "5 Feb 2011";
-    
+
     /** Creates new form PfcViewFrame */
     public PfcViewFrame() {
         initComponents();
         setSize(800, 600);
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -57,7 +57,6 @@ public class PfcViewFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         jFileChooserOpen = new javax.swing.JFileChooser();
-        jOptionPane1 = new javax.swing.JOptionPane();
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPaneFolders = new javax.swing.JScrollPane();
         jTreeFolders = new javax.swing.JTree();
@@ -242,7 +241,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
         jTextAreaHead.setText(null);
         jEditorPaneBody.setText(null);
     }//GEN-LAST:event_jTreeFoldersValueChanged
-    
+
     /** Exit the Application */
     private void exitForm(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_exitForm
         System.exit(0);
@@ -259,7 +258,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
             fileCloseAction.setEnabled(true);
         }
     }
-    
+
     /** Initializes hash table of text actions associated with text components.
      */
     private void initTextActions(JTextComponent textComponent) {
@@ -268,9 +267,9 @@ public class PfcViewFrame extends javax.swing.JFrame {
         for (int i = 0; i < actions.length; i++) {
             Action action = actions[i];
             this.textActions.put(action.getValue(Action.NAME), action);
-        }        
+        }
     }
-    
+
     /** Retrieves text action by name.
      */
     private Action getTextAction(String name) {
@@ -279,19 +278,19 @@ public class PfcViewFrame extends javax.swing.JFrame {
         }
         return (Action) this.textActions.get(name);
     }
-    
+
     /** This is primarily for testing.  The PfcViewer class should be
-     *  called to process the command line arguments and start the 
+     *  called to process the command line arguments and start the
      *  application.
      *  @param args the command line arguments
      */
     public static void main(String args[]) {
         new PfcViewFrame().setVisible(true);
     }
-    
+
     /** Displays application frame, and opens cabinet if file name is
      *  specified.  This is called by the PfcViewer class to display the
-     *  main application window after it has parsed the command line 
+     *  main application window after it has parsed the command line
      *  arguments.
      */
     public void display(String filename) {
@@ -302,11 +301,11 @@ public class PfcViewFrame extends javax.swing.JFrame {
         // Display application window.
         setVisible(true);
         // Open cabinet file if specified.
-        if (filename != null) { 
+        if (filename != null) {
             ((FileOpenAction) fileOpenAction).openCabinetFile(filename);
         }
     }
-    
+
     // Custom variables
     private RandomAccessFile pfcFile;
     private Cabinet cabinet;
@@ -326,7 +325,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
     private Action toolsExportMboxTocAction = new ToolsExportAction(Exporter.MBOX_TOC);
     private Action toolsOptionsAction = new ToolsOptionsAction();
     private Action toolsAboutAction = new ToolsAboutAction();
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCopy;
     private javax.swing.JButton jButtonOpen;
@@ -348,7 +347,6 @@ public class PfcViewFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemToMbox;
     private javax.swing.JMenuItem jMenuItemToMboxToc;
     private javax.swing.JMenu jMenuTools;
-    private javax.swing.JOptionPane jOptionPane1;
     private javax.swing.JPanel jPanelMessage;
     private javax.swing.JScrollPane jScrollPaneBody;
     private javax.swing.JScrollPane jScrollPaneFolders;
@@ -364,22 +362,22 @@ public class PfcViewFrame extends javax.swing.JFrame {
     private javax.swing.JToolBar jToolBarMain;
     private javax.swing.JTree jTreeFolders;
     // End of variables declaration//GEN-END:variables
-    
+
     //----------------------------------------------------------------------
     /**
      *  Inner class to handle File Open menu event.
      */
     public class FileOpenAction extends AbstractAction {
-        
+
         /** Constructs an action to open a cabinet file. */
         public FileOpenAction() {
             super("Open...");
             putValue(SHORT_DESCRIPTION, getValue(NAME));
-            putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_O));
+            putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_O));
             putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_OPEN));
             putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         }
-        
+
         /** Invoked when an action occurs.  Displays the Open dialog to
          *  select the cabinet file, and calls the openCabinetFile()
          *  method to load its contents.
@@ -392,7 +390,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
                 openCabinetFile(filename);
             }
         }
-        
+
         /** Opens selected cabinet file.  When the file is successfully
          *  read, this method sets the cabinet and table model for the
          *  application frame.
@@ -404,7 +402,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
             try {
                 pfcFile = new RandomAccessFile(filename, "r");
             } catch (FileNotFoundException ex) {
-                jOptionPane1.showMessageDialog(PfcViewFrame.this, ex.toString(),
+                JOptionPane.showMessageDialog(PfcViewFrame.this, ex.toString(),
                         "Open Cabinet", JOptionPane.ERROR_MESSAGE);
                 jTextStatus.setText("Could not read cabinet file " + filename);
                 return;
@@ -412,22 +410,22 @@ public class PfcViewFrame extends javax.swing.JFrame {
 
             // Create progress dialog.
             ProgressDialog dialog = new ProgressDialog(PfcViewFrame.this, true);
-        
+
             // Create CabinetMaker and start thread to read cabinet file.
             CabinetMaker maker = new CabinetMaker(pfcFile);
             maker.setProgressBar(dialog.getProgressBar());
             maker.setProgressDialog(dialog);
             Thread thread = new Thread(maker);
             thread.start();
-        
+
             // Display progress dialog.
             dialog.setLocationRelativeTo(PfcViewFrame.this);
             dialog.setVisible(true);
-        
+
             // Dialog returns when thread ends, or user presses Cancel.
             // Make sure thread is dead.
-            if (thread.isAlive()) { 
-                thread.interrupt(); 
+            if (thread.isAlive()) {
+                thread.interrupt();
             }
 
             // Check exception and progress for completion.
@@ -441,11 +439,11 @@ public class PfcViewFrame extends javax.swing.JFrame {
                 tableModel.setCabinet(cabinet);
                 enableMenuItems();
                 jTextStatus.setText("Ready.");
-            } 
+            }
             else {
                 if (exception != null) {
-                    jOptionPane1.showMessageDialog(PfcViewFrame.this, 
-                        exception.toString(), 
+                    JOptionPane.showMessageDialog(PfcViewFrame.this,
+                        exception.toString(),
                         "Open Cabinet", JOptionPane.ERROR_MESSAGE);
                 }
                 jTextStatus.setText("Stopped at " + percent + "%");
@@ -462,10 +460,10 @@ public class PfcViewFrame extends javax.swing.JFrame {
          */
         public FileCloseAction() {
             super("Close");
-            putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_C));
+            putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_C));
             putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_BLANK));
         }
-        
+
         /** Invoked when an action occurs to close the cabinet file.
          */
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -491,10 +489,10 @@ public class PfcViewFrame extends javax.swing.JFrame {
          */
         public FileExitAction() {
             super("Exit");
-            putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_X));
+            putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_X));
             putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_BLANK));
         }
-        
+
         /** Invoked when an action occurs to exit the application.
          */
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -512,18 +510,18 @@ public class PfcViewFrame extends javax.swing.JFrame {
         public EditCopyAction() {
             super("Copy");
             putValue(SHORT_DESCRIPTION, getValue(NAME));
-            putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_C));
+            putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_C));
             putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
             putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_COPY));
         }
-        
+
         /** Invoked when an action occurs to copy text.
          */
         public void actionPerformed(java.awt.event.ActionEvent evt) {
             getTextAction(DefaultEditorKit.copyAction).actionPerformed(evt);
         }
     }
-    
+
     //----------------------------------------------------------------------
     /**
      *  Inner class to handle Tools Export menu event.
@@ -531,7 +529,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
     public class ToolsExportAction extends AbstractAction {
         /** Indicates export type. */
         private int exportType;
-        
+
         /** Constructor with argument to specify export type.  Possible export
          *  types are declared as constants in the Exporter interface.
          */
@@ -540,28 +538,28 @@ public class PfcViewFrame extends javax.swing.JFrame {
             switch (exportType) {
                 case Exporter.FAVE_HTML:
                     putValue(NAME, "To Html...");
-                    putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_H));
+                    putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_H));
                     putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_BLANK));
                     break;
-                case Exporter.MBOX: 
+                case Exporter.MBOX:
                     putValue(NAME, "To Mbox...");
-                    putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_B));
+                    putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_B));
                     putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_BLANK));
                     break;
                 case Exporter.MBOX_TOC:
                     putValue(NAME, "To Mbox+Toc...");
-                    putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_C));
+                    putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_C));
                     putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_BLANK));
                     break;
                 default:
                     putValue(NAME, "To Text...");
-                    putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_T));
+                    putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_T));
                     putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_BLANK));
                     break;
             }
         }
-        
-        /** Invoked when an action occurs.  Displays the Save dialog for 
+
+        /** Invoked when an action occurs.  Displays the Save dialog for
          *  the export file, and creates an Exporter object to perform the
          *  operation.
          */
@@ -569,24 +567,24 @@ public class PfcViewFrame extends javax.swing.JFrame {
             // Get selected folder from tree model.
             CabinetItem folder = (CabinetItem)jTreeFolders.getLastSelectedPathComponent();
             if (folder == null) {
-                jOptionPane1.showMessageDialog(PfcViewFrame.this, 
-                    "Please select a folder to export.", 
+                JOptionPane.showMessageDialog(PfcViewFrame.this,
+                    "Please select a folder to export.",
                     "Export", JOptionPane.PLAIN_MESSAGE);
                 return;
             }
-        
+
             jTextStatus.setText("Exporting items in " + folder.toString());
-        
+
             // Create export Save dialog.
             JFileChooser jFileChooser2 = new JFileChooser();
             jFileChooser2.setDialogType(JFileChooser.SAVE_DIALOG);
             jFileChooser2.setCurrentDirectory(lastExportDir);
-            
+
             // Set default file name and filter.
             File defaultFile = null;
             ExportFileFilter defaultFilter = null;
             switch (exportType) {
-                case Exporter.MBOX: 
+                case Exporter.MBOX:
                 case Exporter.MBOX_TOC:
                     defaultFile = new File(folder.toString() + ".mbx");
                     defaultFilter = new ExportFileFilter(".mbx", "mbox mail file");
@@ -612,16 +610,16 @@ public class PfcViewFrame extends javax.swing.JFrame {
                     lastExportDir = selectedFile.getParentFile();
                     // If file exists, prompt user to overwrite.
                     if (selectedFile.exists()) {
-                        if (jOptionPane1.showConfirmDialog(PfcViewFrame.this, 
-                            "Overwrite existing file " + selectedFile.getName() + "?", 
-                            "Export", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) { 
-                            continue; 
+                        if (JOptionPane.showConfirmDialog(PfcViewFrame.this,
+                            "Overwrite existing file " + selectedFile.getName() + "?",
+                            "Export", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
+                            continue;
                         }
                     }
                 }
                 break;
             } while (true);
-            
+
             // File selection okay, so export folder.
             if (result == JFileChooser.APPROVE_OPTION) {
                 // Create factory and get exporter object.
@@ -632,15 +630,15 @@ public class PfcViewFrame extends javax.swing.JFrame {
                     exportCount = cabinet.export(folder, exporter);
                 }
                 catch (ExportException ex) {
-                    jOptionPane1.showMessageDialog(PfcViewFrame.this, 
-                        ex.toString(), 
+                    JOptionPane.showMessageDialog(PfcViewFrame.this,
+                        ex.toString(),
                         "Export", JOptionPane.ERROR_MESSAGE);
                 }
                 finally {
                     exporter.close();
-                    jOptionPane1.showMessageDialog(PfcViewFrame.this, 
+                    JOptionPane.showMessageDialog(PfcViewFrame.this,
                         String.valueOf(exportCount) + " items exported to " +
-                        selectedFile.getAbsolutePath(), 
+                        selectedFile.getAbsolutePath(),
                         "Export", JOptionPane.PLAIN_MESSAGE);
                 }
             }
@@ -658,10 +656,10 @@ public class PfcViewFrame extends javax.swing.JFrame {
         public ToolsOptionsAction() {
             super("Options...");
             putValue(SHORT_DESCRIPTION, getValue(NAME));
-            putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_O));
+            putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_O));
             putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_PREFERENCES));
         }
-        
+
         /** Invoked when an action occurs.  This displays the Options dialog,
          *  and updates the user settings for the text display pane.
          */
@@ -689,10 +687,10 @@ public class PfcViewFrame extends javax.swing.JFrame {
          */
         public ToolsAboutAction() {
             super("About...");
-            putValue(MNEMONIC_KEY, new Integer(KeyEvent.VK_A));
+            putValue(MNEMONIC_KEY, Integer.valueOf(KeyEvent.VK_A));
             putValue(SMALL_ICON, ImageConstants.createImageIcon(ImageConstants.ICON_BLANK));
         }
-        
+
         /** Invoked when an action occurs to display the About dialog.
          */
         public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -703,7 +701,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
             about.setVisible(true);
         }
     }
-    
+
     //----------------------------------------------------------------------
     /**
      *  Inner class to handle mail selection event in table selection model
@@ -728,12 +726,12 @@ public class PfcViewFrame extends javax.swing.JFrame {
             // Get envelope item and check type.
             int indexPtr = Integer.parseInt(index);
             CabinetItem envelope = cabinet.getCabinetItem(indexPtr);
-            
+
             if (envelope.getType() == CabinetItem.MAIL_ENVELOPE) {
                 // Get data item pointer.
                 int dataPtr = envelope.getData();
                 boolean outgoing = envelope.isOutgoing();
-                if (dataPtr > 0) { 
+                if (dataPtr > 0) {
                     CabinetItem item = cabinet.getCabinetItem(dataPtr);
                     // Create mail message using item content.
                     MailMessage message = new MailMessage(item.getContent());
@@ -754,7 +752,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
             else if (envelope.getType() == CabinetItem.FAVE_ENVELOPE) {
                 // Get data item pointer.
                 int dataPtr = envelope.getData();
-                if (dataPtr > 0) { 
+                if (dataPtr > 0) {
                     CabinetItem item = cabinet.getCabinetItem(dataPtr);
                     // Create favorite using item content.
                     Favorite favorite = new Favorite(item.getContent());
@@ -767,7 +765,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
             else if (envelope.getType() == CabinetItem.ADDR_ENVELOPE) {
                 // Get data item pointer.
                 int dataPtr = envelope.getData();
-                if (dataPtr > 0) { 
+                if (dataPtr > 0) {
                     CabinetItem item = cabinet.getCabinetItem(dataPtr);
                     // Create address book object using item content.
                     Address address = new Address(item.getContent());
@@ -782,7 +780,7 @@ public class PfcViewFrame extends javax.swing.JFrame {
             else if (envelope.getType() == CabinetItem.GROUP_ENVELOPE) {
                 // Get data item pointer.
                 int dataPtr = envelope.getData();
-                if (dataPtr > 0) { 
+                if (dataPtr > 0) {
                     CabinetItem item = cabinet.getCabinetItem(dataPtr);
                     // Create address group object using item content.
                     AddressGroup group = new AddressGroup(item.getContent());
@@ -804,20 +802,20 @@ public class PfcViewFrame extends javax.swing.JFrame {
     public class ExportFileFilter extends javax.swing.filechooser.FileFilter {
         private String extension;
         private String description;
-        
+
         /** Constructor accepts file extension and description. */
         public ExportFileFilter(String extension, String description) {
             this.extension = extension;
             this.description = description;
         }
-        
+
         /** Whether the given file is accepted by this filter.
          */
         public boolean accept(File f) {
             return ((f.getName().toLowerCase().endsWith(extension))
                 || f.isDirectory());
         }
-        
+
         /** The description of this filter.
          */
         public String getDescription() {

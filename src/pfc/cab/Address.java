@@ -2,20 +2,20 @@
  * Copyright (c) 2003 Ernest Yu. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in 
+ * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
@@ -29,28 +29,29 @@ import java.util.*;
  *  @author  Ernie Yu
  */
 public class Address {
-    
+
     private String firstName = null;
     private String lastName = null;
     private String email1 = null;
     private String remarks = null;
-    
-    /** Creates a new instance of Address 
+
+    /** Creates a new instance of Address
      *  @param content contents of CabinetItem for address
      */
     public Address(byte[] content) {
         // Parse item content into blocks.
-        ArrayList blockList = ItemBlock.parseItemContent(content);
+        ArrayList<ItemBlock> blockList = ItemBlock.parseItemContent(content);
 
         // Loop through all item blocks.
         for (int i = 0; i < blockList.size(); i++) {
             ItemBlock block = (ItemBlock)blockList.get(i);
-            int blockLen = block.getLength();
+            // int blockLen = block.getLength();
 
             // Get all subitems.
-            ArrayList subItems = BlockSubItem.parseBlockContent(
-                block.getContent());
+            ArrayList<BlockSubItem> subItems =
+                BlockSubItem.parseBlockContent(block.getContent());
 
+            @SuppressWarnings("unused")
             short extType = -1;
 
             // Loop through all subitems.
@@ -97,15 +98,15 @@ public class Address {
     public String getFirstName() {
         return firstName;
     }
-    
+
     public String getLastName() {
         return firstName;
     }
-    
+
     public String getEmail1() {
         return email1;
     }
-    
+
     public String getRemarks() {
         return remarks;
     }
@@ -120,12 +121,12 @@ public class Address {
         buf.append("Last Name: ").append(lastName);
         return buf.toString();
     }
-    
+
     /**
      *  Returns body text for display in the viewer.
      */
     public String toTextString() {
         return email1;
     }
-    
+
 }
