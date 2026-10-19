@@ -2,3 +2,7 @@ build/
 dist/
 doc/
 nbproject/private/
+
+.DS_Store
+*~
+
