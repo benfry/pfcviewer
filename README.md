@@ -1,4 +1,4 @@
-This is not my work! It's a cleaned up version of Ernest Yu's [PFC Viewer](https://github.com/ernieyu/pfcviewer).
+This is not my work! This is Ernest Yu's [PFC Viewer](https://github.com/ernieyu/pfcviewer), with some minor modernization (dealing with warnings from old code), plus a few fixes for parsing dates and times from email headers.
 
 The original home page for the project no longer exists, but you can find an archived version of it in the [`web`](web) folder of this repo.
 
