@@ -37,11 +37,11 @@ After the length value of every envelope there are three binary numbers (16 bit 
 
 **Folders**
 
-If the LSB of b is set it is a folder. If bit 8 is set it is a system folder, which cannot be deleted. The other bits tell, which system folder it is.
-If the LSB of c is set, the folder is open, if it's cleared it's closed. The other bits of c also tell, which system folder it is.
+If the LSB of `b` is set it is a folder. If bit 8 is set it is a system folder, which cannot be deleted. The other bits tell, which system folder it is.
+If the LSB of `c` is set, the folder is open, if it's cleared it's closed. The other bits of `c` also tell, which system folder it is.
 
-| Values of a | | 
-| --- | --- |
+| Value of `a` | Description | 
+| ---: | --- |
 | 2 | Favorite
 | 5 | File, prepared for download
 | 6 | File, completely downloaded
@@ -57,25 +57,27 @@ If the LSB of c is set, the folder is open, if it's cleared it's closed. The oth
 | 25 | Buddy preferences (since ver 7.0)
 | 26 | Buddy icons (since ver 7.0)
 
-| Flag bits | | 
-| --- | --- |
+| Flag bits | Description | 
+| ---: | --- |
 | 0 | Seen
 | 1 | Mail with attachment
 | 2 | Self written
 | 3 | Mail has picture
 
-Then you can see the text of the line at offset 0x1A - padded with zero to get a length of 0x50 (= 80 Bytes) and split by TABs. The next two longs at offset 0x6A and 0x6E I didn't figure out (flags ?), but the following pointers are clear:
+Then you can see the text of the line at offset `0x1A` - padded with zero to get a length of `0x50` (= 80 Bytes) and split by TABs. The next two longs at offset `0x6A` and `0x6E` I didn't figure out (flags ?), but the following pointers are clear:
+
+```
 0x72: *data
 0x76: *next
 0x7A: *prev
 0x7E: *parent
 0x82: *child
+```
 
 With the child pointer you get one indent to the right and down in the graphical view, with the *parent you get one indent to the left and up. With the prev and next pointers you get up and down with the same indent (*prev of first and *next of last have zero). The data pointer tells you, where you can find the contents of the mail, posting, ... - all translated via the index-table. The data pointer of the root folder points to a field, which holds the filename of the actual cache file (the file with the envelopes only). Data pointers of main newsgroup and pinboard folders are pointing to a record with the newsgroup name for sorting with automatic AOL.
 
----
 
-Free space in the PFC (if elements were deleted):
+### Free space in the PFC (if elements were deleted)
 
 The number at address `0x22` (unsigned short) tells the amount of elements in the following list - the list of deleted elements (if it is zero, no cleanup can be performed):
 
@@ -88,9 +90,8 @@ unsined long len; // Length of deleted area (deleted folder, envelope, mail, ...
 
 …starts at address `0x24`.
 
----
 
-The contents of a data record:
+### The contents of a data record
 
 The text of a mail is one record also starting with `RS\0\0` and split into several subrecords starting with `AOLH` and ending with `AOLF`.
 
@@ -98,7 +99,9 @@ A data record starts (after the `RS\0\0` and the length) with `AOLH` followed by
 
 These items are split and named by binary structures:
 
-`RS..[length]AOLH[length2] [item1][type1][{length3}data1] [item2][type2][{length4}data2] ... AOLF`
+```
+RS..[length]AOLH[length2] [item1][type1][{length3}data1] [item2][type2][{length4}data2] ... AOLF
+```
 
 ```
 short item;
@@ -111,93 +114,111 @@ type 4: 4 bytes of data;
 type 5, 7, 8, 9: unsigned long length_of_following_data
 ```
 
-Items:
-2:  Number of subrecords in this block except this first one
-3:  Holds the same magic pattern as the envelope
-5:  Date/time:
-6:  From:
-7:  To:
-8:  Cc:
-9:  Bcc:
-10: Subject:
-15: Mail from outside AOL = 1; inside AOL = 0
-16: Reply to: (??)
-17: Recipient of this mail (??)
-18: Mail from outside AOL = 1; inside AOL = 0
-19: Count of To recipients
-20: Count of Cc recipients
-22: 1 for embedded picture
-24: Date/time of the mail as 32 bits in seconds starting Jan 1st 1980 (for sorting in version 6.0 and higher)
+| Type | Description | 
+| ---: | --- |
+| 2 | Number of subrecords in this block except this first one
+| 3 | Holds the same magic pattern as the envelope
+| 5 | Date/time
+| 6 | From
+| 7 | To
+| 8 | Cc
+| 9 | Bcc
+| 10 | Subject
+| 15 | Mail from outside AOL = `1`; inside AOL = `0`
+| 16 | Reply to: (??)
+| 17 | Recipient of this mail (??)
+| 18 | Mail from outside AOL = `1`; inside AOL = `0`
+| 19 | Count of To recipients
+| 20 | Count of Cc recipients
+| 22 | 1 for embedded picture
+| 24 | Date/time of the mail as 32 bits in seconds starting Jan 1st 1980 (for sorting in version 6.0 and higher)
 
 The following subrecords only have the following items:
 
+```
 AOLH[length][item1=12][type1=2][type_of_data][item2=13][type2=7][length2][data2]AOLF
+```
 
-12: Type of data
-13: The data itself
+| Type | Description
+| ---: | 
+| 12 | Type of data
+| 13 | The data itself
 
 For the type of data:
-0:   ASCII text (may be with HTML tags)
-1:   Attachment (length, name)
-3:   Header of posting
-4:   Original From: ..., To: ..., ... (before 7.0)
-5:   Header of the mail (Ver 7.0 and above)
-256: Packed contents (Ver 7.0 and higher, packed with zlib)
-257: Data for versions before 7.0 ("You need a higher version to read this")
-260: End of data for versions before 7.0
-270: Hyperlink (HTML tags for it)
-272: AOL HTML tags
-273: Picture (Embed + Binary Data)
-275: Files for an attachment (where the files, that made the zip are on the hd)
-276: AOL HTML (HeaderData)
-281: Filenames of embedded binary data (Ver 7.0 and above)
 
----
+| Type | Description
+| ---: | 
+| 0 | ASCII text (may be with HTML tags)
+| 1 | Attachment (length, name)
+| 3 | Header of posting
+| 4 | Original From: ..., To: ..., ... (before 7.0)
+| 5 | Header of the mail (Ver 7.0 and above)
+| 256 | Packed contents (Ver 7.0 and higher, packed with zlib)
+| 257 | Data for versions before 7.0 ("You need a higher version to read this")
+| 260 | End of data for versions before 7.0
+| 270 | Hyperlink (HTML tags for it)
+| 272 | AOL HTML tags
+| 273 | Picture (Embed + Binary Data)
+| 275 | Files for an attachment (where the files, that made the zip are on the hd)
+| 276 | AOL HTML (HeaderData)
+| 281 | Filenames of embedded binary data (Ver 7.0 and above)
+
+
+### Favorites
 
 Favorites are not made of subrecords - they only have the url in the data record.
 
+```c
 char sync[4]; // 52 53 00 00
 long length;
 char url[];
+```
 
----
 
-Signatures, Buddy away:
+### Signatures, Buddy away
 
-Item 1: Description
-Item 2: Contents
+| Item | Description |
+| ---: | --- |
+| 1 | Description |
+| 2 | Contents |
 
----
 
-Downloaded files:
+### Downloaded files
 
-The items are:
-3:  Date/Time of download (base is 1970)
-5:  Holds the same magic pattern as the envelope
-6:  Date/Time of the original file (as big endian, base = 1970)
-7:  Length of file
-8:  Length downloaded
-9:  Unzipped files
-10: Package
-11: Subject
-15: Filename
-16: Destination folder
-17: Stored as (if the name is duplicate in the folder)
+| Item | Description |
+| ---: | --- |
+| 3 | Date/Time of download (base is 1970)
+| 5 | Holds the same magic pattern as the envelope
+| 6 | Date/Time of the original file (as big endian, base = 1970)
+| 7 | Length of file
+| 8 | Length downloaded
+| 9 | Unzipped files
+| 10 | Package
+| 11 | Subject
+| 15 | Filename
+| 16 | Destination folder
+| 17 | Stored as (if the name is duplicate in the folder)
 
----
 
-Address book (before ver 6.0):
+### Address book (before ver 6.0):
 
 The items are (for single):
-1: First name
-2: Surname
-3: Mail Address
-4: Remarks
+
+| Item | Description |
+| ---: | --- |
+| 1 | First name
+| 2 | Surname
+| 3 | Mail Address
+| 4 | Remarks
 
 The items are (for group):
-1: Name of the group
-2: Mail Addresses
+
+| Item | Description |
+| ---: | --- |
+| 1 | Name of the group
+| 2 | Mail Addresses
 
 ---
 
-Written by Franz v. Gordon (email: fvongordon@aol.com) 17. Apr 2002
+Written by Franz v. Gordon (email: fvongordon@aol.com) 17 April 2002. \
+Minor edits and converted to Markdown by Ben Fry on 19 October 2026.
