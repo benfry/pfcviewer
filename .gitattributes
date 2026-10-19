@@ -1,0 +1,17 @@
+# Handle text files automatically and normalize to LF on check-in
+* text=auto
+
+*.java text
+*.md text
+*.html text
+*.xml text
+
+# Explicitly declare files that must always maintain specific endings
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Denote binary files so Git leaves them untouched
+*.jpg binary
+*.png binary
+*.gif binary
+
