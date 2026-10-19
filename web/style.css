@@ -1,0 +1,101 @@
+BODY {
+  background: #ffffff;
+  color: #000000;
+  margin-left: 0.5in;
+  margin-right: 0.5in;
+  font-family: Garamond, Times, serif;
+}
+A:link {
+  color: #0000ff;
+}
+A:visited {
+  color: #0000ff;
+}
+A.address {
+  text-decoration: none;
+}
+H1 {
+  text-align: center;
+  font-size: x-large;
+}
+H2 {
+  font-size: large;
+  margin-top: 0in;
+}
+H2.home {
+  margin-top: 120pt;
+  margin-bottom: 120pt;
+  text-align: center;
+  font-size: large;
+}
+H3 {
+  font-size: medium;
+  margin-top: 0in;
+}
+P {
+  font-size: medium;
+}
+P.menu {
+  margin-top: 0pt;
+  margin-bottom: 0pt;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: x-small;
+}
+P.center {
+  text-align: center;
+}
+LI {
+  font-size: medium;
+}
+IMG {
+  margin: 0in;
+}
+DT {
+  margin-top: 12pt;
+  font-size: medium;
+  font-weight: bold;
+}
+DL {
+  font-size: medium;
+}
+
+TABLE.picture {
+  color: #333333;
+  margin: 0.05in;
+  border: 0in;
+  padding: 0in;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: x-small;
+}
+
+TABLE.history {
+  font-size: medium;
+}
+TABLE.history TD.version {
+  width: 45pt;
+  text-align: center;
+  vertical-align: top;
+}
+TABLE.history TD.date {
+  width: 90pt;
+  text-align: center;
+  vertical-align: top;
+}
+
+/*
+     FILE ARCHIVED ON 22:29:50 May 04, 2014 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 12:10:32 Oct 18, 2026.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  capture_cache.get: 0.333
+  load_resource: 89.073
+  PetaboxLoader3.resolve: 43.411
+  PetaboxLoader3.datanode: 22.784
+*/
