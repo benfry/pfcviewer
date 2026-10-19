@@ -1,4 +1,8 @@
-Original project page no longer exists; but here is [home.roadrunner.com/~ernieyu/pfcviewer](https://web.archive.org/web/20140531053212/http://home.roadrunner.com/~ernieyu/pfcviewer/) from the Wayback Machine.
+This is not my work! It's a cleaned up version of Ernest Yu's [PFC Viewer](https://github.com/ernieyu/pfcviewer).
+
+The original home page for the project no longer exists, but you can find an archived version of it in the [`web`](web) folder of this repo.
+
+_— Ben Fry, 19 October 2026_
 
 
 # Build
@@ -34,3 +38,8 @@ Convert several, inside a folder:
 ```sh
 find ~/Desktop/aol/ -type f -exec java -cp build MailToMbox {} {}.mbx ';'
 ```
+
+
+# File Format 
+
+You can read Franz v. Gordon's documentation of the PFC file format [here](format.md).
